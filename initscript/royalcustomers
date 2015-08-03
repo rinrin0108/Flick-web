@@ -1,0 +1,39 @@
+#!/bin/bash
+# chkconfig: 345 88 08
+# description: Forever for Node.js
+
+DEAMON=/opt/flick/server.js
+LOG=/var/log/flick.log
+PID=/root/.forever/pids/forever.pid
+
+export PATH=$PATH:/root/.node/v0.10.13/bin
+export NODE_PATH=$NODE_PATH:/opt/flick/node_modules
+
+node=node
+forever=forever
+
+case "$1" in
+    start)
+        $forever start -l $LOG --pidFile $PID -a $DEAMON
+        ;;
+    stop)
+        $forever stop --pidFile $PID $DEAMON
+        ;;
+    stopall)
+        $forever stopall --pidFile $PID
+        ;;
+    restartall)
+        $forever restartall --pidFile $PID
+        ;;
+    reload|restart)
+        $forever restart -l $LOG --pidFile $PID -a $DEAMON
+        ;;
+    list)
+        $forever list
+        ;;
+    *)
+        echo "Usage: /etc/init.d/forever {start|stop|restart|reload|stopall|restartall|list}"
+        exit 1
+        ;;
+esac
+
