@@ -40,7 +40,7 @@ app.get('/pull', function(req, res, next){
   // 受け取れる範囲の距離をメートル単位で指定
   var maxDistance = 100;
   // 受け取れる範囲の時間を秒単位で指定
-  var time = 6000;
+  var time = 15;
 
   maxDistance /= (6371*1000);
   var time_from = (new Date()).getTime()-(1000*time);
@@ -50,7 +50,7 @@ app.get('/pull', function(req, res, next){
   Card
     .find({
       location : {
-        $near        : [req.param('lng'), req.param('lat')],
+        $near        : [req.param('lat'), req.param('lng')],
         $maxDistance : maxDistance
       },
       time : {
